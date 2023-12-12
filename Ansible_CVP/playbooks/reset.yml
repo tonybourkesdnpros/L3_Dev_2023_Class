@@ -1,0 +1,17 @@
+---
+- name: Set container topology
+  hosts: cvp1
+  vars_files:
+  - ../vars/CVP_reset.yml
+  tasks:
+  - name: Set containers
+    arista.cvp.cv_container_v3:
+      topology: "{{ CONTAINERS_DEFAULT }}"
+  - name: "Apply configlets"
+    arista.cvp.cv_device_v3:
+      devices: "{{ CVP_DEVICES_DEFAULT }}"
+      apply_mode: strict
+    register: CVP_CC
+  - name: "Run change control"
+    arista.cvp.cv_task_v3:
+      tasks: "{{ CVP_CC.taskIds }}"

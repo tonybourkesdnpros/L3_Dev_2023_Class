@@ -5,6 +5,7 @@
   - name: Generate AVD structured configs
     ansible.builtin.import_role:
       name: arista.avd.eos_designs
+    async: 120
   - name: Generate EOS configs from strcutured configs
     ansible.builtin.import_role:
       name: arista.avd.eos_cli_config_gen

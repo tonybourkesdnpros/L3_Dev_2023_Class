@@ -1,7 +1,7 @@
 ---
 
 fabric_name: FABRIC
-p2p_uplinks_mtu: 1550
+p2p_uplinks_mtu: 1500
 
 spine:
   defaults:
@@ -51,3 +51,4 @@ l3leaf:
         leaf4:
           id: 4
           uplink_switch_interfaces: [Ethernet5, Ethernet5, Ethernet4]
+

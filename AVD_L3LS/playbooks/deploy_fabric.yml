@@ -7,4 +7,4 @@
         name: arista.avd.eos_config_deploy_cvp
       vars:
         fabric_name: FABRIC
-        execute_tasks: false
+        execute_tasks: true

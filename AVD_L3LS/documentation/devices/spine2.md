@@ -1,9 +1,10 @@
 # spine2
-
-## Table of Contents
+# Table of Contents
 
 - [Management](#management)
   - [Management API HTTP](#management-api-http)
+- [Authentication](#authentication)
+- [Monitoring](#monitoring)
 - [Spanning Tree](#spanning-tree)
   - [Spanning Tree Summary](#spanning-tree-summary)
   - [Spanning Tree Device Configuration](#spanning-tree-device-configuration)
@@ -20,30 +21,33 @@
   - [Router BGP](#router-bgp)
 - [BFD](#bfd)
   - [Router BFD](#router-bfd)
+- [Multicast](#multicast)
 - [Filters](#filters)
   - [Prefix-lists](#prefix-lists)
   - [Route-maps](#route-maps)
+- [ACL](#acl)
 - [VRF Instances](#vrf-instances)
   - [VRF Instances Summary](#vrf-instances-summary)
   - [VRF Instances Device Configuration](#vrf-instances-device-configuration)
+- [Quality Of Service](#quality-of-service)
 
-## Management
+# Management
 
-### Management API HTTP
+## Management API HTTP
 
-#### Management API HTTP Summary
+### Management API HTTP Summary
 
 | HTTP | HTTPS | Default Services |
 | ---- | ----- | ---------------- |
 | False | True | - |
 
-#### Management API VRF Access
+### Management API VRF Access
 
 | VRF Name | IPv4 ACL | IPv6 ACL |
 | -------- | -------- | -------- |
 | MGMT | - | - |
 
-#### Management API HTTP Configuration
+### Management API HTTP Configuration
 
 ```eos
 !
@@ -55,107 +59,111 @@ management api http-commands
       no shutdown
 ```
 
-## Spanning Tree
+# Authentication
 
-### Spanning Tree Summary
+# Monitoring
+
+# Spanning Tree
+
+## Spanning Tree Summary
 
 STP mode: **none**
 
-### Spanning Tree Device Configuration
+## Spanning Tree Device Configuration
 
 ```eos
 !
 spanning-tree mode none
 ```
 
-## Internal VLAN Allocation Policy
+# Internal VLAN Allocation Policy
 
-### Internal VLAN Allocation Policy Summary
+## Internal VLAN Allocation Policy Summary
 
 | Policy Allocation | Range Beginning | Range Ending |
 | ------------------| --------------- | ------------ |
 | ascending | 1006 | 1199 |
 
-### Internal VLAN Allocation Policy Configuration
+## Internal VLAN Allocation Policy Configuration
 
 ```eos
 !
 vlan internal order ascending range 1006 1199
 ```
 
-## Interfaces
+# Interfaces
 
-### Ethernet Interfaces
+## Ethernet Interfaces
 
-#### Ethernet Interfaces Summary
+### Ethernet Interfaces Summary
 
-##### L2
+#### L2
 
 | Interface | Description | Mode | VLANs | Native VLAN | Trunk Group | Channel-Group |
 | --------- | ----------- | ---- | ----- | ----------- | ----------- | ------------- |
 
 *Inherited from Port-Channel Interface
 
-##### IPv4
+#### IPv4
 
 | Interface | Description | Type | Channel Group | IP Address | VRF |  MTU | Shutdown | ACL In | ACL Out |
 | --------- | ----------- | -----| ------------- | ---------- | ----| ---- | -------- | ------ | ------- |
-| Ethernet2 | P2P_LINK_TO_LEAF1_Ethernet4 | routed | - | 192.168.103.2/31 | default | 1550 | False | - | - |
-| Ethernet3 | P2P_LINK_TO_LEAF2_Ethernet4 | routed | - | 192.168.103.8/31 | default | 1550 | False | - | - |
-| Ethernet4 | P2P_LINK_TO_LEAF3_Ethernet4 | routed | - | 192.168.103.14/31 | default | 1550 | False | - | - |
-| Ethernet5 | P2P_LINK_TO_LEAF4_Ethernet4 | routed | - | 192.168.103.20/31 | default | 1550 | False | - | - |
+| Ethernet2 | P2P_LINK_TO_LEAF1_Ethernet4 | routed | - | 192.168.103.2/31 | default | 1500 | False | - | - |
+| Ethernet3 | P2P_LINK_TO_LEAF2_Ethernet4 | routed | - | 192.168.103.8/31 | default | 1500 | False | - | - |
+| Ethernet4 | P2P_LINK_TO_LEAF3_Ethernet4 | routed | - | 192.168.103.14/31 | default | 1500 | False | - | - |
+| Ethernet5 | P2P_LINK_TO_LEAF4_Ethernet4 | routed | - | 192.168.103.20/31 | default | 1500 | False | - | - |
 
-#### Ethernet Interfaces Device Configuration
+### Ethernet Interfaces Device Configuration
 
 ```eos
 !
 interface Ethernet2
    description P2P_LINK_TO_LEAF1_Ethernet4
    no shutdown
-   mtu 1550
+   mtu 1500
    no switchport
    ip address 192.168.103.2/31
 !
 interface Ethernet3
    description P2P_LINK_TO_LEAF2_Ethernet4
    no shutdown
-   mtu 1550
+   mtu 1500
    no switchport
    ip address 192.168.103.8/31
 !
 interface Ethernet4
    description P2P_LINK_TO_LEAF3_Ethernet4
    no shutdown
-   mtu 1550
+   mtu 1500
    no switchport
    ip address 192.168.103.14/31
 !
 interface Ethernet5
    description P2P_LINK_TO_LEAF4_Ethernet4
    no shutdown
-   mtu 1550
+   mtu 1500
    no switchport
    ip address 192.168.103.20/31
 ```
 
-### Loopback Interfaces
+## Loopback Interfaces
 
-#### Loopback Interfaces Summary
+### Loopback Interfaces Summary
 
-##### IPv4
+#### IPv4
 
 | Interface | Description | VRF | IP Address |
 | --------- | ----------- | --- | ---------- |
 | Loopback0 | EVPN_Overlay_Peering | default | 192.168.101.12/32 |
 
-##### IPv6
+#### IPv6
 
 | Interface | Description | VRF | IPv6 Address |
 | --------- | ----------- | --- | ------------ |
 | Loopback0 | EVPN_Overlay_Peering | default | - |
 
 
-#### Loopback Interfaces Device Configuration
+### Loopback Interfaces Device Configuration
 
 ```eos
 !
@@ -165,9 +173,8 @@ interface Loopback0
    ip address 192.168.101.12/32
 ```
 
-## Routing
-
-### Service Routing Protocols Model
+# Routing
+## Service Routing Protocols Model
 
 Multi agent routing protocol model enabled
 
@@ -176,35 +183,34 @@ Multi agent routing protocol model enabled
 service routing protocols model multi-agent
 ```
 
-### IP Routing
+## IP Routing
 
-#### IP Routing Summary
+### IP Routing Summary
 
 | VRF | Routing Enabled |
 | --- | --------------- |
 | default | True |
-| MGMT | False |
+| MGMT | false |
 
-#### IP Routing Device Configuration
+### IP Routing Device Configuration
 
 ```eos
 !
 ip routing
 no ip routing vrf MGMT
 ```
+## IPv6 Routing
 
-### IPv6 Routing
-
-#### IPv6 Routing Summary
+### IPv6 Routing Summary
 
 | VRF | Routing Enabled |
 | --- | --------------- |
 | default | False |
 | MGMT | false |
 
-### Router BGP
+## Router BGP
 
-#### Router BGP Summary
+### Router BGP Summary
 
 | BGP AS | Router ID |
 | ------ | --------- |
@@ -212,12 +218,11 @@ no ip routing vrf MGMT
 
 | BGP Tuning |
 | ---------- |
-| no bgp default ipv4-unicast |
 | maximum-paths 4 ecmp 4 |
 
-#### Router BGP Peer Groups
+### Router BGP Peer Groups
 
-##### EVPN-OVERLAY-PEERS
+#### EVPN-OVERLAY-PEERS
 
 | Settings | Value |
 | -------- | ----- |
@@ -229,7 +234,7 @@ no ip routing vrf MGMT
 | Send community | all |
 | Maximum routes | 0 (no limit) |
 
-##### IPv4-UNDERLAY-PEERS
+#### IPv4-UNDERLAY-PEERS
 
 | Settings | Value |
 | -------- | ----- |
@@ -237,35 +242,34 @@ no ip routing vrf MGMT
 | Send community | all |
 | Maximum routes | 12000 |
 
-#### BGP Neighbors
+### BGP Neighbors
 
-| Neighbor | Remote AS | VRF | Shutdown | Send-community | Maximum-routes | Allowas-in | BFD | RIB Pre-Policy Retain | Route-Reflector Client | Passive |
-| -------- | --------- | --- | -------- | -------------- | -------------- | ---------- | --- | --------------------- | ---------------------- | ------- |
-| 192.168.101.1 | 65101 | default | - | Inherited from peer group EVPN-OVERLAY-PEERS | Inherited from peer group EVPN-OVERLAY-PEERS | - | Inherited from peer group EVPN-OVERLAY-PEERS | - | - | - |
-| 192.168.101.2 | 65101 | default | - | Inherited from peer group EVPN-OVERLAY-PEERS | Inherited from peer group EVPN-OVERLAY-PEERS | - | Inherited from peer group EVPN-OVERLAY-PEERS | - | - | - |
-| 192.168.101.3 | 65103 | default | - | Inherited from peer group EVPN-OVERLAY-PEERS | Inherited from peer group EVPN-OVERLAY-PEERS | - | Inherited from peer group EVPN-OVERLAY-PEERS | - | - | - |
-| 192.168.101.4 | 65103 | default | - | Inherited from peer group EVPN-OVERLAY-PEERS | Inherited from peer group EVPN-OVERLAY-PEERS | - | Inherited from peer group EVPN-OVERLAY-PEERS | - | - | - |
-| 192.168.103.3 | 65101 | default | - | Inherited from peer group IPv4-UNDERLAY-PEERS | Inherited from peer group IPv4-UNDERLAY-PEERS | - | - | - | - | - |
-| 192.168.103.9 | 65101 | default | - | Inherited from peer group IPv4-UNDERLAY-PEERS | Inherited from peer group IPv4-UNDERLAY-PEERS | - | - | - | - | - |
-| 192.168.103.15 | 65103 | default | - | Inherited from peer group IPv4-UNDERLAY-PEERS | Inherited from peer group IPv4-UNDERLAY-PEERS | - | - | - | - | - |
-| 192.168.103.21 | 65103 | default | - | Inherited from peer group IPv4-UNDERLAY-PEERS | Inherited from peer group IPv4-UNDERLAY-PEERS | - | - | - | - | - |
+| Neighbor | Remote AS | VRF | Shutdown | Send-community | Maximum-routes | Allowas-in | BFD | RIB Pre-Policy Retain | Route-Reflector Client |
+| -------- | --------- | --- | -------- | -------------- | -------------- | ---------- | --- | --------------------- | ---------------------- |
+| 192.168.101.1 | 65101 | default | - | Inherited from peer group EVPN-OVERLAY-PEERS | Inherited from peer group EVPN-OVERLAY-PEERS | - | Inherited from peer group EVPN-OVERLAY-PEERS | - | - |
+| 192.168.101.2 | 65101 | default | - | Inherited from peer group EVPN-OVERLAY-PEERS | Inherited from peer group EVPN-OVERLAY-PEERS | - | Inherited from peer group EVPN-OVERLAY-PEERS | - | - |
+| 192.168.101.3 | 65103 | default | - | Inherited from peer group EVPN-OVERLAY-PEERS | Inherited from peer group EVPN-OVERLAY-PEERS | - | Inherited from peer group EVPN-OVERLAY-PEERS | - | - |
+| 192.168.101.4 | 65103 | default | - | Inherited from peer group EVPN-OVERLAY-PEERS | Inherited from peer group EVPN-OVERLAY-PEERS | - | Inherited from peer group EVPN-OVERLAY-PEERS | - | - |
+| 192.168.103.3 | 65101 | default | - | Inherited from peer group IPv4-UNDERLAY-PEERS | Inherited from peer group IPv4-UNDERLAY-PEERS | - | - | - | - |
+| 192.168.103.9 | 65101 | default | - | Inherited from peer group IPv4-UNDERLAY-PEERS | Inherited from peer group IPv4-UNDERLAY-PEERS | - | - | - | - |
+| 192.168.103.15 | 65103 | default | - | Inherited from peer group IPv4-UNDERLAY-PEERS | Inherited from peer group IPv4-UNDERLAY-PEERS | - | - | - | - |
+| 192.168.103.21 | 65103 | default | - | Inherited from peer group IPv4-UNDERLAY-PEERS | Inherited from peer group IPv4-UNDERLAY-PEERS | - | - | - | - |
 
-#### Router BGP EVPN Address Family
+### Router BGP EVPN Address Family
 
-##### EVPN Peer Groups
+#### EVPN Peer Groups
 
-| Peer Group | Activate | Encapsulation |
-| ---------- | -------- | ------------- |
-| EVPN-OVERLAY-PEERS | True | default |
+| Peer Group | Activate |
+| ---------- | -------- |
+| EVPN-OVERLAY-PEERS | True |
 
-#### Router BGP Device Configuration
+### Router BGP Device Configuration
 
 ```eos
 !
 router bgp 65100
    router-id 192.168.101.12
    maximum-paths 4 ecmp 4
-   no bgp default ipv4-unicast
    neighbor EVPN-OVERLAY-PEERS peer group
    neighbor EVPN-OVERLAY-PEERS next-hop-unchanged
    neighbor EVPN-OVERLAY-PEERS update-source Loopback0
@@ -310,17 +314,17 @@ router bgp 65100
       neighbor IPv4-UNDERLAY-PEERS activate
 ```
 
-## BFD
+# BFD
 
-### Router BFD
+## Router BFD
 
-#### Router BFD Multihop Summary
+### Router BFD Multihop Summary
 
 | Interval | Minimum RX | Multiplier |
 | -------- | ---------- | ---------- |
 | 300 | 300 | 3 |
 
-#### Router BFD Device Configuration
+### Router BFD Device Configuration
 
 ```eos
 !
@@ -328,19 +332,21 @@ router bfd
    multihop interval 300 min-rx 300 multiplier 3
 ```
 
-## Filters
+# Multicast
 
-### Prefix-lists
+# Filters
 
-#### Prefix-lists Summary
+## Prefix-lists
 
-##### PL-LOOPBACKS-EVPN-OVERLAY
+### Prefix-lists Summary
+
+#### PL-LOOPBACKS-EVPN-OVERLAY
 
 | Sequence | Action |
 | -------- | ------ |
 | 10 | permit 192.168.101.0/24 eq 32 |
 
-#### Prefix-lists Device Configuration
+### Prefix-lists Device Configuration
 
 ```eos
 !
@@ -348,17 +354,17 @@ ip prefix-list PL-LOOPBACKS-EVPN-OVERLAY
    seq 10 permit 192.168.101.0/24 eq 32
 ```
 
-### Route-maps
+## Route-maps
 
-#### Route-maps Summary
+### Route-maps Summary
 
-##### RM-CONN-2-BGP
+#### RM-CONN-2-BGP
 
 | Sequence | Type | Match | Set | Sub-Route-Map | Continue |
 | -------- | ---- | ----- | --- | ------------- | -------- |
 | 10 | permit | ip address prefix-list PL-LOOPBACKS-EVPN-OVERLAY | - | - | - |
 
-#### Route-maps Device Configuration
+### Route-maps Device Configuration
 
 ```eos
 !
@@ -366,17 +372,21 @@ route-map RM-CONN-2-BGP permit 10
    match ip address prefix-list PL-LOOPBACKS-EVPN-OVERLAY
 ```
 
-## VRF Instances
+# ACL
 
-### VRF Instances Summary
+# VRF Instances
+
+## VRF Instances Summary
 
 | VRF Name | IP Routing |
 | -------- | ---------- |
 | MGMT | disabled |
 
-### VRF Instances Device Configuration
+## VRF Instances Device Configuration
 
 ```eos
 !
 vrf instance MGMT
 ```
+
+# Quality Of Service

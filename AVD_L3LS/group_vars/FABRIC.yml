@@ -1,0 +1,53 @@
+---
+
+fabric_name: FABRIC
+p2p_uplinks_mtu: 1550
+
+spine:
+  defaults:
+    platform: vEOS
+    bgp_as: 65100
+    loopback_ipv4_pool: 192.168.101.0/24
+    mlag: false
+  nodes:
+    spine1:
+      id: 11
+    spine2:
+      id: 12
+    spine3:
+      id: 13
+
+l3leaf:
+  defaults:
+    bgp_as: 65101-65199
+    platform: vEOS
+    loopback_ipv4_pool: 192.168.101.0/24
+    vtep_loopback_ipv4_pool: 192.168.102.0/24
+    uplink_interfaces: [Ethernet3, Ethernet4, Ethernet5]
+    uplink_switches: [spine1, spine2, spine3]
+    uplink_ipv4_pool: 192.168.103.0/24
+    mlag_interfaces: [Ethernet1, Ethernet2]
+    mlag_peer_ipv4_pool: 10.255.252.0/24 # MLAG peer IPs
+    mlag_peer_l3_ipv4_pool: 10.255.251.0/24 # iBGP peering between MLAG peers
+    virtual_router_mac_address: 00:1C:73:00:00:99
+    mlag: true
+    spanning_tree_mode: mstp # Spanning Tree is still enabled even in EVPN setups
+    spanning_tree_priority: 16384 
+
+  node_groups:
+    mlag1:
+      nodes:  
+        leaf1:
+          id: 1
+          uplink_switch_interfaces: [Ethernet2, Ethernet2, Ethernet1]
+        leaf2:
+          id: 2
+          uplink_switch_interfaces: [Ethernet3, Ethernet3, Ethernet2]
+    mlag2:
+      nodes:  
+        leaf3:
+          id: 3
+          uplink_switch_interfaces: [Ethernet4, Ethernet4, Ethernet3]
+        leaf4:
+          id: 4
+          uplink_switch_interfaces: [Ethernet5, Ethernet5, Ethernet4]

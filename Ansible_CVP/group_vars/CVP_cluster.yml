@@ -13,3 +13,33 @@ CONTAINERS:
       parentContainerName: DC1
       configlets:
       - tonys_loopbacks
+
+DEVICES:
+  - fqdn: 'leaf1'
+    parentContainerName: 'Leafs-DC1'
+    configlets:
+      - 'tonys_loopbacks'
+  - fqdn: 'leaf2'
+    parentContainerName: 'Leafs-DC1'
+    configlets:
+      - 'tonys_loopbacks'
+  - fqdn: 'leaf3'
+    parentContainerName: 'Leafs-DC1'
+    configlets:
+      - 'tonys_loopbacks'
+  - fqdn: 'leaf4'
+    parentContainerName: 'Leafs-DC1'
+    configlets:
+      - 'tonys_loopbacks'
+  - fqdn: 'spine1'
+    parentContainerName: 'Spines-DC1'
+    configlets:
+      - 'tonys_loopbacks'
+  - fqdn: 'spine2'
+    parentContainerName: 'Spines-DC1'
+    configlets:
+      - 'tonys_loopbacks'
+  - fqdn: 'spine3'
+    parentContainerName: 'Spines-DC1'
+    configlets:
+      - 'tonys_loopbacks'

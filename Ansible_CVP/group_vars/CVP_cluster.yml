@@ -3,3 +3,13 @@ path: "{{lookup('env','PWD')}}"
 CVP_CONFIGLETS:
  Alias_tony: "alias ship show ip interface brief"
  tonys_loopbacks: "{{ lookup('file','{{ path }}/configlets/static/tonys_loopbacks.cfg') }}"
+
+CONTAINERS:
+  DC1:
+      parentContainerName: Tenant
+  Spines-DC1:
+      parentContainerName: DC1
+  Leafs-DC1:
+      parentContainerName: DC1
+      configlets:
+      - tonys_loopbacks
